@@ -1,0 +1,119 @@
+/* You can add global styles to this file, and also import other style files */
+html{
+    background: linear-gradient(to right top, #44ddd0 , #27d7a1);
+}
+
+html , body {
+    height: 100%;
+}
+
+.centered-content{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.modal-box{
+    min-height: 180px;
+    width:100%;
+    max-width: 500px;
+    background: #ddddddc4;
+    padding: 30px;
+    text-align: center;
+}
+
+.title{
+    font-size: 52px;
+    color: #05a477;
+}
+
+.list-title{
+    display:inline-flex;
+    align-items:center;
+    padding:8px 5px;
+    width:80%;
+    border:none;
+    outline: none;
+    background:#eeecece6;
+}
+.create-button{
+    width:20%;
+    padding:8px 5px;
+    background: #05a477;
+    border:none;
+    outline:none;
+    margin-top: 15px;
+    cursor: pointer;
+    color:white;
+    transition: 0.2s ease;
+}
+.create-button:hover{
+    background: #2ac69a;
+}
+.create-button:active{
+    background: #54d6b1;
+}
+
+.go-back{
+    display:flex;
+    padding: 8px 15px;
+    border:none;
+    outline: none;
+    margin-top:20px;
+    cursor: pointer;
+    transition:0.2s ease;
+}
+.go-back:hover{
+    background:#ddd;
+}
+.go-back:active{
+    background:rgb(206, 205, 205);
+}
+
+
+
+.modal-box{
+    width: 300px;
+}
+
+.from-control{
+    display:flex;
+    flex-direction: column;
+}
+
+.from-control input{
+    padding:8px 5px;
+    border:none;
+    background: white;
+    margin-bottom: 10px;
+}
+.from-control input:focus{
+    outline:none;
+}
+
+.login-btn{
+    padding:10px 25px;
+    border:none;
+    background: #ddd;
+
+    transition: 0.2s ease;
+}
+
+.login-btn:hover{
+    background:white;
+}
+.login-btn:active{
+    background:#ddd;
+}
+.login-btn:focus{
+    outline:none;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.user-bottom-message{
+    padding-top:20px;
+    font-size: 12px;
+}
