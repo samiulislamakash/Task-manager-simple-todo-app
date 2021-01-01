@@ -10,11 +10,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { HomeComponent } from './@pages/home/home.component';
+import { TodosComponent } from './@pages/todos/todos.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    TodosComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,7 +25,8 @@ import { HomeComponent } from './@pages/home/home.component';
     BrowserAnimationsModule,
     MatMenuModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatButtonModule
   ],
   // providers: [
   //   { provide: HTTP_INTERCEPTORS, useClass: WebReqIntreseptorService, multi: true }

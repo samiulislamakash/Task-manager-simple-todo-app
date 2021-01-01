@@ -1,0 +1,54 @@
+<section class="full_todo">
+    <nav class="todo_nav container-fluid">
+        <div class="_logo">
+            <h2>To Do</h2>
+        </div>
+        <div class="_buttons">
+            <button mat-mini-fab color="primary">
+                <mat-icon>settings</mat-icon>
+            </button>
+        </div>
+    </nav>
+
+    <div class="todos container-fluid">
+        <div class="row">
+            <div class="col-sm-4 col-md-3 ">
+                <div class="_todo unselectable">
+                    <div *ngIf="!isTaskEdit" class="header">
+                        <label (dblclick)="taskEditView()" class="taskTitle">Home work </label>
+                        <button mat-icon-button>
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </div>
+                    <div *ngIf="isTaskEdit" class="header_task_edit">
+                        <input type="email" class="form-control" placeholder="enter some text">
+                        <div class="buttons">
+                            <button type="submit" class="btn btn-primary" (click)="taskSave()">Save</button>
+                            <button type="button" class="btn btn_cancel btn-danger"
+                                (click)="taskCancel()">Cancel</button>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="lists">
+                        <div class="list" *ngIf="!isListEdit">
+                            <label (dblclick)="listEditView()">I am here for your task I am here for your taskI am here
+                                for your task</label>
+                            <button mat-icon-button>
+                                <mat-icon>delete</mat-icon>
+                            </button>
+                        </div>
+                        <div class="edit_list" *ngIf="isListEdit">
+                            <textarea class="form-control"></textarea>
+                            <div class="buttons">
+                                <button type="submit" (click)="listSave()" class="btn btn-primary">Save</button>
+                                <button type="button" (click)="listCancel()"
+                                    class="btn btn_cancel btn-danger">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

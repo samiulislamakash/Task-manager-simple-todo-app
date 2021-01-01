@@ -1,3 +1,4 @@
+import { TodosComponent } from './@pages/todos/todos.component';
 import { HomeComponent } from './@pages/home/home.component';
 import { Routes, RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
@@ -14,7 +15,12 @@ const routes: Routes = [
   {
     path: 'signUp',
     component: HomeComponent
+  },
+  {
+    path: 'main',
+    component: TodosComponent
   }
+
 ];
 
 @NgModule({
