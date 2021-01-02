@@ -18,6 +18,10 @@ mat-icon{
     color:#11111191;
 }
 
+.setting{
+    color:#fff;
+}
+
 button{
     &:active{
         border:none;
@@ -28,6 +32,7 @@ button{
         outline:none;
     }
 }
+
 
 .full_todo{
     min-height: 100vh;
@@ -105,7 +110,6 @@ button{
                 margin:0px;
                 padding:0px;
             }
-
             .lists{
                 padding:10px 5px;
                 .list{
@@ -133,8 +137,17 @@ button{
                         }
                     }
                 }
+                .create_list{
+                    margin-top:10px;
+                }
             }
 
+        }
+        .addTask{
+            width:100%;
+            text-align: left;
+            color:#11111191;
+            background:#ddd;
         }
     }
     

@@ -4,8 +4,8 @@
             <h2>To Do</h2>
         </div>
         <div class="_buttons">
-            <button mat-mini-fab color="primary">
-                <mat-icon>settings</mat-icon>
+            <button mat-mini-fab color="primary" [matMenuTriggerFor]="menu">
+                <mat-icon class="setting">settings</mat-icon>
             </button>
         </div>
     </nav>
@@ -23,9 +23,9 @@
                     <div *ngIf="isTaskEdit" class="header_task_edit">
                         <input type="email" class="form-control" placeholder="enter some text">
                         <div class="buttons">
-                            <button type="submit" class="btn btn-primary" (click)="taskSave()">Save</button>
+                            <button type="submit" class="btn btn-primary" (click)="taskUpdate()">Save</button>
                             <button type="button" class="btn btn_cancel btn-danger"
-                                (click)="taskCancel()">Cancel</button>
+                                (click)="taskEditCancel()">Cancel</button>
                         </div>
                     </div>
                     <hr>
@@ -40,15 +40,54 @@
                         <div class="edit_list" *ngIf="isListEdit">
                             <textarea class="form-control"></textarea>
                             <div class="buttons">
-                                <button type="submit" (click)="listSave()" class="btn btn-primary">Save</button>
-                                <button type="button" (click)="listCancel()"
+                                <button type="submit" (click)="listUpdate()" class="btn btn-primary">Save</button>
+                                <button type="button" (click)="listEditViewCancel()"
                                     class="btn btn_cancel btn-danger">Cancel</button>
                             </div>
+                        </div>
+                        <div class="create_list">
+                            <button mat-raised-button class="addTask" *ngIf="!isListCreate" (click)="listCreateView()">
+                                <span class="material-icons">
+                                    add
+                                </span>
+                                <span>Add new list</span>
+                            </button>
+                            <div class="edit_list" *ngIf="isListCreate">
+                                <textarea class="form-control"></textarea>
+                                <div class="buttons">
+                                    <button type="submit" (click)="listSave()" class="btn btn-primary">Save</button>
+                                    <button type="button" (click)="listCreateViewCancel()"
+                                        class="btn btn_cancel btn-danger">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 col-md-3">
+                <div class="_todo">
+                    <button mat-raised-button class="addTask" *ngIf="!isTaskCreate" (click)="taskCreateView()">
+                        <span class="material-icons">
+                            add
+                        </span>
+                        <span>Add new task</span>
+                    </button>
+                    <div *ngIf="isTaskCreate" class="header_task_edit">
+                        <input type="email" class="form-control" placeholder="enter some text">
+                        <div class="buttons">
+                            <button type="submit" class="btn btn-primary" (click)="taskSave()">Save</button>
+                            <button type="button" class="btn btn_cancel btn-danger"
+                                (click)="taskCreateViewCancel()">Cancel</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <mat-menu #menu="matMenu">
+        <button mat-menu-item>Logout</button>
+    </mat-menu>
+
 
 </section>

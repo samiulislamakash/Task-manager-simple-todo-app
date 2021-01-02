@@ -9,6 +9,15 @@ const bcrypt = require('bcryptjs');
 const jwtSecret = "51778657246321226641fsdklafjasdkljfsklfjd7148924065";
 
 const UserSchema = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        minlength: 3,
+        trim: true,
+    },
+    gender: {
+        type: String,
+    },
     email: {
         type: String,
         required: true,
@@ -19,7 +28,7 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minlength: 8
+        minlength: 6
     },
     sessions: [{
         token: {
@@ -146,7 +155,7 @@ UserSchema.pre('save', async function (next) {
 
     if (user.isModified('password')) {
         // if the password field has been edited/changed then run this code.
-        user.password = await bcrypt.hash(user.password , 8)
+        user.password = await bcrypt.hash(user.password, 8)
         next();
     } else {
         next();
@@ -181,4 +190,4 @@ let generateRefreshTokenExpiryTime = () => {
 
 const User = mongoose.model('users', UserSchema);
 
-module.exports =  User 
+module.exports = User 
