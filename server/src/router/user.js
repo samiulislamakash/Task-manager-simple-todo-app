@@ -3,18 +3,18 @@ const UserRoute = express.Router()
 const User = require('../db/models/user.model')
 
 // varify refresh token middleware (which will be verifying the section)
-let verifySession = (req, res, next)=>{
+let verifySession = (req, res, next) => {
     // grab the refresh token from the request header
-    let refreshToken = req.header('x-refresh-token')
+    let refreshToken = req.header('refresh-token')
 
     // grab the _id from the request header
     let _id = req.header('_id')
 
-    User.findByIdAndToken(_id, refreshToken).then((user)=>{
-        if(!user){
+    User.findByIdAndToken(_id, refreshToken).then((user) => {
+        if (!user) {
             // user couldn't be found
             return Promise.reject({
-                'error':'User not found . Make sure that refresh token and user id'
+                'error': 'User not found . Make sure that refresh token and user id'
             })
         }
         // if the code reaches here - the user was found
@@ -25,25 +25,25 @@ let verifySession = (req, res, next)=>{
 
         let isSessionValid = false
 
-        user.sessions.forEach((session)=>{
-            if(session.token === refreshToken){
+        user.sessions.forEach((session) => {
+            if (session.token === refreshToken) {
                 // check if the session has expired
-                if(User.hasRefreshTokenExpired(session.expiresAt === false)){
+                if (User.hasRefreshTokenExpired(session.expiresAt === false)) {
                     // refresh token has not expired
                     isSessionValid = true;
                 }
             }
         })
 
-        if(isSessionValid){
+        if (isSessionValid) {
             next()
-        }else{
+        } else {
             // the session is not valid
             return Promise.reject({
                 'error': 'Refresh token has expired or the session is invalid'
             })
         }
-    }).catch((e)=>{
+    }).catch((e) => {
         res.status(401).send(e)
     })
 }
@@ -53,35 +53,35 @@ let verifySession = (req, res, next)=>{
  * POST /users
  * Purpose: user Sign Up
  */
-UserRoute.post('/users', (req, res) => {
-   // User sign up
+UserRoute.post('/users/create', (req, res) => {
+    // User sign up
 
-   let body = req.body;
-   let newUser = new User(body);
+    let body = req.body;
+    let newUser = new User(body);
 
-   newUser.save().then(() => {
-       return newUser.createSession();
-   }).then((refreshToken) => {
-       // Session created successfully - refreshToken returned.
-       // now we geneate an access auth token for the user
+    newUser.save().then(() => {
+        return newUser.createSession();
+    }).then((refreshToken) => {
+        // Session created successfully - refreshToken returned.
+        // now we geneate an access auth token for the user
 
-       return newUser.generateAccessAuthToken().then((accessToken) => {
-           // access auth token generated successfully, now we return an object containing the auth tokens
-           return { accessToken, refreshToken }
-       });
-   }).then((authTokens) => {
-    let obj = {
-        newUser,
-        authTokens
-    }
-       // Now we construct and send the response to the user with their auth tokens in the header and the user object in the body
-       res
-           .header('x-refresh-token', authTokens.refreshToken)
-           .header('x-access-token', authTokens.accessToken)
-           .send(obj);
-   }).catch((e) => {
-       res.status(400).send(e);
-   })
+        return newUser.generateAccessAuthToken().then((accessToken) => {
+            // access auth token generated successfully, now we return an object containing the auth tokens
+            return { accessToken, refreshToken }
+        });
+    }).then((authTokens) => {
+        let obj = {
+            newUser,
+            authTokens
+        }
+        // Now we construct and send the response to the user with their auth tokens in the header and the user object in the body
+        res
+            .header('refresh-token', authTokens.refreshToken)
+            .header('access-token', authTokens.accessToken)
+            .send({ success: true, message: 'User Registration Successfull', data: obj });
+    }).catch((e) => {
+        res.status(400).send({ success: false, message: "User Registration Failed!!" });
+    })
 })
 
 
@@ -100,18 +100,18 @@ UserRoute.post('/users/login', (req, res) => {
             });
         }).then((authTokens) => {
             // Now we construct and send the response to the user with their auth tokens in the header and the user object in the body
-            
+
             let obj = {
                 user,
                 authTokens
             }
             res
-                .header('x-refresh-token', authTokens.refreshToken)
-                .header('x-access-token', authTokens.accessToken)
-                .send(obj);
+                .header('refresh-token', authTokens.refreshToken)
+                .header('access-token', authTokens.accessToken)
+                .send({ success: true, message: 'User Login Successfull', data: obj });
         })
     }).catch((e) => {
-        res.status(400).send(e);
+        res.status(400).send({ success: false, message: 'User Login Failed!!' });
     });
 })
 
@@ -120,12 +120,12 @@ UserRoute.post('/users/login', (req, res) => {
  * Get /users/me/access-token
  * Purpose: generate and return an access token
  */
-UserRoute.get('/users/me/access-token', verifySession, (req, res)=>{
+UserRoute.get('/users/me/access-token', verifySession, (req, res) => {
     // we know that the user/caller is authenticate and we have the user_id and user object available to us
-    req.userObject.generateAccessAuthToken().then((accessToken)=>{
-        res.header('x-access-token', accessToken).send({accessToken})
-    }).catch((e)=>{
-        res.status(400).send(e)
+    req.userObject.generateAccessAuthToken().then((accessToken) => {
+        res.header('access-token', accessToken).send({ success: true, message: 'Access Token Genareted', accessToken })
+    }).catch((e) => {
+        res.status(400).send({ success: false, message: "Access Token Genaration Failed!!" });
     })
 })
 

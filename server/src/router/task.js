@@ -2,85 +2,64 @@ const express = require('express')
 const TaskRoute = express.Router()
 const Authenticate = require('../middlware/middlware')
 
-// load in mongoose model
 const Task = require('../db/models/task.model')
 const List = require('../db/models/list.model')
 
-/**
- * GET /lists/:listId/tasks
- * Purpose: Get all tasks in spacific list
- */
-TaskRoute.get('/lists/:listId/tasks', Authenticate, async (req, res) => {
-    // we went to return all tasks that belong to a spacific list
+TaskRoute.get('/lists/:listId/tasks/all', Authenticate, async (req, res) => {
     try {
         const taskList = await Task.find({ _listId: req.params.listId })
         if (!taskList) {
-            res.status(404).send()
+            res.status(404).send({ success: false, message: 'Bad Request' })
         }
-        res.status(200).send(taskList)
+        res.status(200).send({ success: true, message: 'Get all task successfull', data: taskList })
 
     } catch (e) {
-        res.status(500).send({ error: 'Internal Server Problem' })
+        res.status(500).send({ success: false, message: 'Internal Server Problem' })
     }
 })
 
-/**
- * GET /lists/:listId/tasks/:taskId
- * Purpose: Get an single spacific task 
- */
 TaskRoute.get('/lists/:listId/tasks/:taskId', Authenticate, async (req, res) => {
     try {
-        // find that list should belong to this user
         const list = await List.findOne({
             _id: req.params.listId,
             _userid: req.user._id
         })
-        // if that list not belong to this user that give 404 error
         if (!list) {
-            res.status(404).send()
+            res.status(404).send({ success: false, message: 'User or List not found!!' })
         } else {
-            // we went to return a single spacific task that belong to a spcific list
             Task.findOne({
                 _id: req.params.taskId,
                 _listId: req.params.listId
             }).then((task) => {
-                res.status(200).send(task)
+                res.status(200).send({ success: true, message: 'Get task successfull', data: task })
             }).catch((e) => {
-                res.status(404).send()
+                res.status(404).send({ success: false, message: 'Bad Request' })
             })
         }
     } catch (e) {
-        res.status(500).send({ error: 'Internal Server Problem' })
+        res.status(500).send({ success: false, message: 'Internal Server Problem' })
     }
 
 })
 
-/**
- * POST /lists/:listId/tasks
- * Purpose: Create a new task in spacific list
- */
-TaskRoute.post('/lists/:listId/tasks', Authenticate, async (req, res) => {
-    // we went to create a new task in a spacific list
+TaskRoute.post('/lists/:listId/task/create', Authenticate, async (req, res) => {
     try {
 
-        // find that list should belong to this user
         const list = await List.findOne({
             _id: req.params.listId,
             _userid: req.user._id
         })
-        // if that list not belong to this user that give 404 error
         if (!list) {
-            res.status(404).send()
+            res.status(404).send({ success: false, message: 'User or List not found!!' })
         } else {
             let newTask = new Task({
                 title: req.body.title,
                 _listId: req.params.listId
             })
-
             await newTask.save().then((newTaskDoc) => {
-                res.status(200).send(newTaskDoc)
+                res.status(200).send({ success: true, message: 'Task Create Succesfull.', data: newTaskDoc })
             }).catch((e) => {
-                res.status(400).send(e)
+                res.status(400).send({ success: false, message: 'Bad Request' })
             })
         }
     } catch (e) {
@@ -88,33 +67,24 @@ TaskRoute.post('/lists/:listId/tasks', Authenticate, async (req, res) => {
     }
 })
 
-/**
- * PATCH /lists/:listId/tasks/:taskId
- * Purpose: update an existing task
- */
-TaskRoute.patch('/lists/:listId/tasks/:taskId', Authenticate, async (req, res) => {
-
+TaskRoute.patch('/lists/:listId/tasks/update/:taskId', Authenticate, async (req, res) => {
     try {
-        // find that list should belong to this user
         const list = await List.findOne({
             _id: req.params.listId,
             _userid: req.user._id
         })
-        // if that list not belong to this user that give 404 error
         if (!list) {
-            res.status(404).send()
+            res.status(404).send({ success: false, message: 'User or List not found!!' })
         } else {
-
-            // we went to update an existing task 
             Task.findOneAndUpdate({
                 _id: req.params.taskId,
                 _listId: req.params.listId
             }, {
                 $set: req.body
             }).then(() => {
-                res.status(200).send({ message: 'Completed Successfull' })
+                res.status(200).send({ success: true, message: 'Task Updated Successfull' })
             }).catch(() => {
-                res.status(400).send()
+                res.status(400).send({ success: false, message: 'Bad Request' })
             })
         }
     } catch (e) {
@@ -122,29 +92,22 @@ TaskRoute.patch('/lists/:listId/tasks/:taskId', Authenticate, async (req, res) =
     }
 })
 
-/**
- * DELETE /lists/:listId/tasks/:taskId
- * Purpose: Delete a task
- */
-TaskRoute.delete('/lists/:listId/tasks/:taskId', Authenticate, async (req, res) => {
+TaskRoute.delete('/lists/:listId/tasks/delete/:taskId', Authenticate, async (req, res) => {
     try {
-        // find that list should belong to this user
         const list = await List.findOne({
             _id: req.params.listId,
             _userid: req.user._id
         })
-        // if that list not belong to this user that give 404 error
         if (!list) {
-            res.status(404).send()
+            res.status(404).send({ success: false, message: 'User or List not found!!' })
         } else {
-            // we went to delete a single spacific task
             Task.findOneAndRemove({
                 _id: req.params.taskId,
                 _listId: req.params.listId
             }).then((delteTask) => {
-                res.status(200).send(delteTask)
+                res.status(200).send({ success: true, message: 'Task Deleted Succ', data: delteTask })
             }).catch((e) => {
-                res.status(404).send()
+                res.status(404).send({ success: false, })
             })
         }
     } catch (e) {

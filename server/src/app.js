@@ -2,6 +2,8 @@ const express = require('express')
 const app = express()
 require('./db/mongoose')
 const cors = require('cors')
+const swaggerUi = require('swagger-ui-express')
+const swaggerDocument = require('../swagger.json')
 
 /** Middleware Start */
 const port = process.env.PORT || 3000;
@@ -12,6 +14,7 @@ app.use(express.json())
 app.use(require('./router/lists'))
 app.use(require('./router/task'))
 app.use(require('./router/user'))
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 
 
 app.get('/', (req, res) => {
