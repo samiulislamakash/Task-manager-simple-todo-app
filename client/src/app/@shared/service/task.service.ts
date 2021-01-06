@@ -1,57 +1,35 @@
-// import { Injectable } from '@angular/core';
-// import {WebRequestService} from './web-request.service';
-// import { Task } from './models/task.model';
+import { Task } from './../models/task.model';
+import { environment } from './../../../environments/environment';
+import { Injectable } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
 
-// @Injectable({
-//   providedIn: 'root'
-// })
-// export class TaskService {
+@Injectable({
+    providedIn: 'root'
+})
+export class TaskService {
 
-//   constructor(private webRequestService: WebRequestService) { }
+    private EndPoint = environment.API_ENDPOINT + 'lists/'
 
-//   createList(title:string){
-//     return this.webRequestService.post('lists',{title})
-//   }
+    constructor(private http: HttpClient) { }
 
-//   updateList(id:string, title:string){
-//     return this.webRequestService.patch(`lists/${id}`,{title})
-//   }
+    create(listId: string, payload: Task) {
+        return this.http.post(`${this.EndPoint}${listId}/task/create`, payload);
+    }
 
-//   getList(){
-//     return this.webRequestService.get('lists')
-//   }
+    getAll(listId: string) {
+        return this.http.get(`${this.EndPoint}${listId}/tasks/all`);
+    }
 
-//   getOneList(url:string){
-//     return this.webRequestService.get(url)
-//   }
+    getSingle(listId: string, taskId: string) {
+        return this.http.get(`${this.EndPoint}${listId}/tasks/${taskId}`)
+    }
 
-//   deleteList(listId:string){
-//     return this.webRequestService.delete(`lists/${listId}`)
-//   }
+    update(listId: string, taskId: string, payload: any) {
+        return this.http.patch(`${this.EndPoint}${listId}/tasks/delete/${taskId}`, payload)
+    }
 
-//   getTasks(listId: string){
-//     return this.webRequestService.get(`lists/${listId}/tasks`)
-//   }
+    delete(listId: string, taskId: string) {
+        return this.http.delete(`${this.EndPoint}${listId}/tasks/delete/${taskId}`)
+    }
 
-//   createTask(title:string , listId:string){
-//     return this.webRequestService.post(`lists/${listId}/tasks`,{title})
-//   }
-
-//   completed(task: Task){
-//     return this.webRequestService.patch(`lists/${task._listId}/tasks/${task._id}`,{
-//       completed: !task.completed
-//     })
-//   }
-
-//   deleteTask(listId:string, taskId:string){
-//     return this.webRequestService.delete(`lists/${listId}/tasks/${taskId}`)
-//   }
-
-//   updateTask(listId:string, taskId:string, title:string){
-//     return this.webRequestService.patch(`lists/${listId}/tasks/${taskId}`,{title})
-//   }
-
-//   getOneTask(listId:string , taskId:string){
-//     return this.webRequestService.get(`lists/${listId}/tasks/${taskId}`);
-//   }
-// }
+}
