@@ -1,5 +1,10 @@
+import { ListService } from './../../@shared/service/list.service';
+import { TaskService } from './../../@shared/service/task.service';
+import { AuthService } from './../../@shared/service/auth.service';
 import { Component, OnInit } from '@angular/core';
+import { UntilDestroy } from '@ngneat/until-destroy';
 
+@UntilDestroy()
 @Component({
   selector: 'app-todos',
   templateUrl: './todos.component.html',
@@ -12,9 +17,19 @@ export class TodosComponent implements OnInit {
   isTaskCreate: boolean = false;
   isListCreate: boolean = false;
 
-  constructor() { }
+
+
+  constructor(
+    private authService: AuthService,
+    private taskService: TaskService,
+    private listService: ListService
+  ) { }
 
   ngOnInit(): void {
+  }
+
+  getAllTask() {
+
   }
 
   taskCreateView() {
@@ -68,4 +83,8 @@ export class TodosComponent implements OnInit {
 
   deleteTask() { }
   deleteList() { }
+
+  logout() {
+    this.authService.logout();
+  }
 }

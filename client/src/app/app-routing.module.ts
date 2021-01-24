@@ -1,3 +1,4 @@
+import { Error404Component } from './@pages/error404/error404.component';
 import { TodosComponent } from './@pages/todos/todos.component';
 import { HomeComponent } from './@pages/home/home.component';
 import { Routes, RouterModule } from '@angular/router';
@@ -19,6 +20,10 @@ const routes: Routes = [
   {
     path: 'main',
     component: TodosComponent
+  },
+  {
+    path: "**",
+    component: Error404Component
   }
 
 ];

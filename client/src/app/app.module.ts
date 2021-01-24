@@ -1,3 +1,4 @@
+import { IntreseptorService } from './@shared/service/intrasepter.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -11,12 +12,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { HomeComponent } from './@pages/home/home.component';
 import { TodosComponent } from './@pages/todos/todos.component';
+import { Error404Component } from './@pages/error404/error404.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     TodosComponent,
+    Error404Component,
   ],
   imports: [
     BrowserModule,
@@ -26,11 +32,15 @@ import { TodosComponent } from './@pages/todos/todos.component';
     MatMenuModule,
     MatButtonModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatSelectModule
   ],
-  // providers: [
-  //   { provide: HTTP_INTERCEPTORS, useClass: WebReqIntreseptorService, multi: true }
-  // ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: IntreseptorService, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

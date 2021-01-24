@@ -50,7 +50,7 @@
                                 <span class="material-icons">
                                     add
                                 </span>
-                                <span>Add new list</span>
+                                <span>Add new task</span>
                             </button>
                             <div class="edit_list" *ngIf="isListCreate">
                                 <textarea class="form-control"></textarea>
@@ -70,7 +70,7 @@
                         <span class="material-icons">
                             add
                         </span>
-                        <span>Add new task</span>
+                        <span>Add new list</span>
                     </button>
                     <div *ngIf="isTaskCreate" class="header_task_edit">
                         <input type="email" class="form-control" placeholder="enter some text">
@@ -86,7 +86,7 @@
     </div>
 
     <mat-menu #menu="matMenu">
-        <button mat-menu-item>Logout</button>
+        <button mat-menu-item (click)="logout()">Logout</button>
     </mat-menu>
 
 

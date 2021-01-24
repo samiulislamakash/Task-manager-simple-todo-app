@@ -8,16 +8,16 @@ import { Injectable } from "@angular/core";
 })
 export class UserService {
 
-    private EndPiont = environment.API_ENDPOINT + 'users/create/'
+    private EndPiont = environment.API_ENDPOINT + 'users/'
 
     constructor(private http: HttpClient) { }
 
     create(payload: User) {
-        return this.http.post(`${this.EndPiont}users/create`, payload)
+        return this.http.post(`${this.EndPiont}create`, payload)
     }
 
     login(payload: any) {
-        return this.http.post(`${this.EndPiont}users/login`, payload)
+        return this.http.post(`${this.EndPiont}login`, payload)
     }
 
 }

@@ -328,21 +328,28 @@
         <h1>To Do</h1>
 
         <div class="_form container">
-            <form>
+            <form [formGroup]="form">
                 <h3>Login - To Do </h3>
-                <div class="mb-3">
-                    <input type="email" placeholder="Enter Email" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <input type="password" placeholder="Enter Password" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-primary submit">Submit</button>
+                <mat-form-field class="mb-3" style="width:100%">
+                    <input type="email" matInput formControlName="email" placeholder="Enter Email">
+                    <mat-error *ngIf="form.get('email').hasError('required')">
+                        Email is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="mb-3" style="width:100%">
+                    <input type="password" matInput formControlName="password" placeholder="Enter Password">
+                    <mat-error *ngIf="form.get('password').hasError('required')">
+                        Password is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <button type="submit" [disabled]="form.invalid" (click)="userLogin()"
+                    class="btn btn-primary submit">Submit</button>
                 <p class="or">Or</p>
 
                 <hr>
                 <div class="jump_section">
                     <a class="can_it" routerLink>Can't log in? </a>
-                    <li><a routerLink>Sign up for an account</a></li>
+                    <li><a routerLink="/signUp">Sign up for an account</a></li>
                 </div>
             </form>
         </div>
@@ -358,29 +365,53 @@
         <h1>To Do</h1>
 
         <div class="_form container">
-            <form>
+            <form [formGroup]="form">
                 <h3>Sign up for your account </h3>
-                <div class="mb-3">
-                    <input type="email" placeholder="Enter Email" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <input type="text" placeholder="Enter Phone Number" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <input type="password" placeholder="Enter Password" class="form-control">
-                </div>
-                <div class="mb-3">
-                    <input type="password" placeholder="Confirm Enter Password" class="form-control">
-                </div>
+                <mat-form-field class="mb-3" style="width:100%">
+                    <input type="text" matInput formControlName="name" placeholder="Enter Name">
+                    <mat-error *ngIf="form.get('name').hasError('required')">
+                        Name is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="mb-3" style="width:100%">
+                    <input type="text" matInput formControlName="phoneNumber" placeholder="Enter Phone Number" required>
+                    <mat-error *ngIf="form.get('phoneNumber').hasError('required')">
+                        Phone Number is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="mb-3" style="width:100%">
+                    <input type="email" matInput formControlName="email" placeholder="Enter Email">
+                    <mat-error *ngIf="form.get('email').hasError('required')">
+                        Email is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="mb-3" style="width:100%">
+                    <input type="password" matInput formControlName="password" placeholder="Enter Password">
+                    <mat-error *ngIf="form.get('password').hasError('required')">
+                        Password is <strong>required</strong>
+                    </mat-error>
+                </mat-form-field>
+                <mat-form-field class="mb-3" style="width:100%">
+                    <mat-label>Gender</mat-label>
+                    <mat-select formControlName="gender">
+                        <mat-option value="Male">
+                            Male
+                        </mat-option>
+                        <mat-option value="Female">
+                            Female
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
 
                 <p>By signing up, you confirm that you've read and accepted our <a routerLink>Terms of Service</a> and
                     <a routerLink>Privacy Policy</a>.
                 </p>
 
-                <button type="submit" class="btn btn-primary submit">Submit</button>
+                <button type="submit" [disabled]="form.invalid" (click)="userSingUp()"
+                    class="btn btn-primary submit">Submit</button>
 
                 <div class="jump_section">
-                    <a class="can_it" routerLink>Already have an account? Log In </a>
+                    <a class="can_it" routerLink="/login">Already have an account? Log In </a>
                 </div>
             </form>
         </div>
