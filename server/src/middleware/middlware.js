@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 
 // check whether the request has valid jwt access token
 let Authenticate = (req, res, next) => {
-    let token = req.header('x-access-token');
+    let token = req.header('access-token');
 
     // varify the jwt 
     jwt.verify(token, User.getJWTSecret(), (err, decoded) => {
