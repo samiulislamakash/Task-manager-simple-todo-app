@@ -47,11 +47,11 @@ ListRoute.post('/create', Authenticate, async (req, res) => {
     }
 })
 
-ListRoute.patch('/update/:id', Authenticate, (req, res) => {
+ListRoute.patch('/update/:id', Authenticate, async (req, res) => {
     List.findOneAndUpdate({ _id: req.params.id, _userid: req.user._id }, {
         $set: req.body
-    }).then(() => {
-        res.status(200).send({ success: true, message: 'List Data is Updated.' })
+    }, { new: true }).then((l) => {
+        res.status(200).send({ success: true, data: l, message: 'List Data is Updated.' })
     }).catch((e) => {
         res.status(400).send({ success: false, message: 'List Data Update Error' })
     })

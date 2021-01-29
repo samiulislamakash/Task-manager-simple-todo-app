@@ -81,8 +81,8 @@ TaskRoute.patch('/:listId/tasks/update/:taskId', Authenticate, async (req, res) 
                 _listId: req.params.listId
             }, {
                 $set: req.body
-            }).then(() => {
-                res.status(200).send({ success: true, message: 'Task Updated Successfull' })
+            }).then((t) => {
+                res.status(200).send({ success: true, data: t, message: 'Task Updated Successfull' })
             }).catch(() => {
                 res.status(400).send({ success: false, message: 'Bad Request' })
             })
