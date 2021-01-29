@@ -1,0 +1,31 @@
+<section class="header">
+    <h1>{{pageTitle}}</h1>
+    <button mat-icon-button (click)="onNoClick()">
+        <mat-icon>close</mat-icon>
+    </button>
+</section>
+
+<form [formGroup]="form">
+    <ng-container *ngIf="data.mode === 'list-create' || data.mode === 'edit-list'">
+        <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" required>
+            <mat-error *ngIf="form.get('title').hasError('required')">
+                Title is required
+            </mat-error>
+        </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="data.mode === 'task-create' || data.mode === 'edit-task'">
+        <mat-form-field class="example-full-width" appearance="outline">
+            <mat-label>Title</mat-label>
+            <textarea matInput formControlName="title" required></textarea>
+            <mat-error *ngIf="form.get('title').hasError('required')">
+                Title is required
+            </mat-error>
+        </mat-form-field>
+    </ng-container>
+
+    <div class="button_tab">
+        <button mat-raised-button (click)="save()">Save</button>
+    </div>
+</form>

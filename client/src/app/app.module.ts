@@ -16,6 +16,9 @@ import { Error404Component } from './@pages/error404/error404.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { TodoCreateUpdateComponent } from './@pages/todos/todo-create-update/todo-create-update.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -23,6 +26,7 @@ import { MatSelectModule } from '@angular/material/select';
     HomeComponent,
     TodosComponent,
     Error404Component,
+    TodoCreateUpdateComponent,
   ],
   imports: [
     BrowserModule,
@@ -36,7 +40,9 @@ import { MatSelectModule } from '@angular/material/select';
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatDialogModule,
+    MatSnackBarModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: IntreseptorService, multi: true }

@@ -12,74 +12,43 @@
 
     <div class="todos container-fluid">
         <div class="row">
-            <div class="col-sm-4 col-md-3 ">
+            <div class="col-sm-4 col-md-3 " *ngFor="let todo of myTodos; let i = index;">
                 <div class="_todo unselectable">
-                    <div *ngIf="!isTaskEdit" class="header">
-                        <label (dblclick)="taskEditView()" class="taskTitle">Home work </label>
-                        <button mat-icon-button>
+                    <div *ngIf="!isListEdit" class="header">
+                        <label (dblclick)="editList(todo.list , i)" class="taskTitle">{{todo.list.title}} </label>
+                        <button mat-icon-button (click)="deleteList(todo.list._id, i)">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </div>
-                    <div *ngIf="isTaskEdit" class="header_task_edit">
-                        <input type="email" class="form-control" placeholder="enter some text">
-                        <div class="buttons">
-                            <button type="submit" class="btn btn-primary" (click)="taskUpdate()">Save</button>
-                            <button type="button" class="btn btn_cancel btn-danger"
-                                (click)="taskEditCancel()">Cancel</button>
-                        </div>
-                    </div>
                     <hr>
                     <div class="lists">
-                        <div class="list" *ngIf="!isListEdit">
-                            <label (dblclick)="listEditView()">I am here for your task I am here for your taskI am here
-                                for your task</label>
-                            <button mat-icon-button>
-                                <mat-icon>delete</mat-icon>
-                            </button>
-                        </div>
-                        <div class="edit_list" *ngIf="isListEdit">
-                            <textarea class="form-control"></textarea>
-                            <div class="buttons">
-                                <button type="submit" (click)="listUpdate()" class="btn btn-primary">Save</button>
-                                <button type="button" (click)="listEditViewCancel()"
-                                    class="btn btn_cancel btn-danger">Cancel</button>
+                        <ng-container *ngIf="!isTaskEdit">
+                            <div class="list" *ngFor="let task of todo.tasks; let j = index;">
+                                <label (dblclick)="editTask()">{{task.title}}</label>
+                                <button mat-icon-button>
+                                    <mat-icon>delete</mat-icon>
+                                </button>
                             </div>
-                        </div>
+                        </ng-container>
                         <div class="create_list">
-                            <button mat-raised-button class="addTask" *ngIf="!isListCreate" (click)="listCreateView()">
+                            <button mat-raised-button class="addTask" *ngIf="!isTaskCreate" (click)="createTask()">
                                 <span class="material-icons">
                                     add
                                 </span>
                                 <span>Add new task</span>
                             </button>
-                            <div class="edit_list" *ngIf="isListCreate">
-                                <textarea class="form-control"></textarea>
-                                <div class="buttons">
-                                    <button type="submit" (click)="listSave()" class="btn btn-primary">Save</button>
-                                    <button type="button" (click)="listCreateViewCancel()"
-                                        class="btn btn_cancel btn-danger">Cancel</button>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="col-sm-4 col-md-3">
                 <div class="_todo">
-                    <button mat-raised-button class="addTask" *ngIf="!isTaskCreate" (click)="taskCreateView()">
+                    <button mat-raised-button class="addTask" *ngIf="!isListCreate" (click)="createList()">
                         <span class="material-icons">
                             add
                         </span>
                         <span>Add new list</span>
                     </button>
-                    <div *ngIf="isTaskCreate" class="header_task_edit">
-                        <input type="email" class="form-control" placeholder="enter some text">
-                        <div class="buttons">
-                            <button type="submit" class="btn btn-primary" (click)="taskSave()">Save</button>
-                            <button type="button" class="btn btn_cancel btn-danger"
-                                (click)="taskCreateViewCancel()">Cancel</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

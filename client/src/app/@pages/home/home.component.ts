@@ -1,3 +1,4 @@
+import { NotificationService } from './../../@shared/service/notification.service';
 import { Router } from '@angular/router';
 import { AuthService } from './../../@shared/service/auth.service';
 import { UserService } from './../../@shared/service/user.service';
@@ -22,7 +23,8 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private userService: UserService,
-    private authService: AuthService
+    private authService: AuthService,
+    private notificationService: NotificationService,
   ) {
     let url = this.router.url.split('/')
     this.state = url[1];
@@ -64,14 +66,16 @@ export class HomeComponent implements OnInit {
       .pipe(untilDestroyed(this))
       .subscribe(
         (res: any) => {
-          console.log(res)
           if (res.success) {
             this.authService.session(res.data.user._id, res.data.authTokens.accessToken, res.data.authTokens.refreshToken);
             this.form.reset();
             this.router.navigate(['main']);
+            this.notificationService.showPopupInfo('Login Successfull')
+          } else {
+            this.notificationService.showPopupDanger(res.message);
           }
         }, (err) => {
-          console.log(err)
+          this.notificationService.showPopupDanger(err.message);
         }
       )
 
@@ -88,9 +92,12 @@ export class HomeComponent implements OnInit {
             this.authService.session(res.data.user._id, res.data.authTokens.accessToken, res.data.authTokens.refreshToken);
             this.form.reset();
             this.router.navigate(['main']);
+            this.notificationService.showPopupInfo('Sing up successfull')
+          } else {
+            this.notificationService.showPopupDanger(res.message);
           }
         }, (err) => {
-          console.log(err)
+          this.notificationService.showPopupDanger(err.message);
         }
       )
   }

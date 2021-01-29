@@ -1,0 +1,20 @@
+.header{
+    display: flex;
+    justify-content: space-between;
+    button{
+        border:none;
+        outline:none;
+        margin-left:10px;
+        margin-top:-7px;
+    }
+}
+
+.button_tab{
+    display:flex;
+    flex-direction: row-reverse;
+    padding:10px 0px;
+}
+
+mat-form-field{
+    width:100%;
+}
