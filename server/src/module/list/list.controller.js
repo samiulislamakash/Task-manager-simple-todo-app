@@ -41,7 +41,7 @@ ListRoute.post('/create', Authenticate, async (req, res) => {
         }
         let newList = new List({ title, _userid: req.user._id })
         await newList.save()
-        res.status(200).send({ success: true, message: 'Get list data successfull.', data: newList });
+        res.status(200).send({ success: true, message: 'List create successfull.', data: newList });
     } catch (e) {
         res.status(500).send({ success: false, message: 'Internal Server Problem' })
     }
