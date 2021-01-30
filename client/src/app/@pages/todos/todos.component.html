@@ -23,15 +23,16 @@
                     <hr>
                     <div class="lists">
                         <ng-container *ngIf="!isTaskEdit">
-                            <div class="list" *ngFor="let task of todo.tasks; let j = index;">
-                                <label (dblclick)="editTask()">{{task.title}}</label>
-                                <button mat-icon-button>
+                            <div class="list" *ngFor="let task of todo.task; let j = index;">
+                                <label (dblclick)="editTask(task,todo.list._id, i, j )">{{task.title}}</label>
+                                <button mat-icon-button (click)="deleteTask(todo.list._id, task._id, i,j)">
                                     <mat-icon>delete</mat-icon>
                                 </button>
                             </div>
                         </ng-container>
                         <div class="create_list">
-                            <button mat-raised-button class="addTask" *ngIf="!isTaskCreate" (click)="createTask()">
+                            <button mat-raised-button class="addTask" *ngIf="!isTaskCreate"
+                                (click)="createTask(todo.list._id, i)">
                                 <span class="material-icons">
                                     add
                                 </span>

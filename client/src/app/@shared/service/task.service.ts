@@ -25,7 +25,7 @@ export class TaskService {
     }
 
     update(listId: string, taskId: string, payload: any) {
-        return this.http.patch(`${this.EndPoint}${listId}/tasks/delete/${taskId}`, payload)
+        return this.http.patch(`${this.EndPoint}${listId}/tasks/update/${taskId}`, payload)
     }
 
     delete(listId: string, taskId: string) {

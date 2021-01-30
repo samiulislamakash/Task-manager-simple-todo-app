@@ -29,6 +29,7 @@ export class TodoCreateUpdateComponent implements OnInit {
       this.form.patchValue(data.list)
     } else if (data.mode === 'edit-task') {
       this.pageTitle = 'Edit Task'
+      this.form.patchValue(data.data.task)
     }
 
     this.dialogRef.backdropClick().subscribe(() => this.dialogRef.close({ success: false }));

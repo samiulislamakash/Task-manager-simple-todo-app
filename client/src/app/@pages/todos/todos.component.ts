@@ -95,7 +95,7 @@ export class TodosComponent implements OnInit {
       }
     });
   }
-  createTask() {
+  createTask(listId, index) {
     const dialogRef = this.dialog.open(TodoCreateUpdateComponent, {
       width: '550px',
       data: {
@@ -105,7 +105,20 @@ export class TodosComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result.success) {
-
+        this.taskService.create(listId, result.data)
+          .pipe(untilDestroyed(this))
+          .subscribe(
+            (res: any) => {
+              if (res.success) {
+                this.myTodos[index].task.push(res.data);
+                this.notificationService.showPopupSuccess(res.message);
+              } else {
+                this.notificationService.showPopupDanger(res.message);
+              }
+            }, err => {
+              this.notificationService.showPopupDanger(err.message);
+            }
+          )
       }
     });
   }
@@ -120,16 +133,14 @@ export class TodosComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result.success) {
-        console.log(result.data)
         this.listService.updateSingle(list._id, result.data)
           .pipe(untilDestroyed(this))
           .subscribe(
             (res: any) => {
               if (res.success) {
-                console.log(res.data)
                 let todoAll = this.myTodos;
                 todoAll[index].list.title = res.data.title;
-                console.log(todoAll);
+                this.myTodos = todoAll;
                 this.notificationService.showPopupInfo(res.message);
               } else {
                 this.notificationService.showPopupDanger(res.message);
@@ -141,18 +152,36 @@ export class TodosComponent implements OnInit {
       }
     });
   }
-  editTask(task?: any) {
+  editTask(task: any, listId, index, tIndex) {
     const dialogRef = this.dialog.open(TodoCreateUpdateComponent, {
       width: '550px',
       data: {
         mode: 'edit-task',
-        data: task,
+        data: {
+          task: task
+        },
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed', result);
-
+      if (result.success) {
+        this.taskService.update(listId, task._id, result.data)
+          .pipe(untilDestroyed(this))
+          .subscribe(
+            (res: any) => {
+              if (res.success) {
+                let todoAll = this.myTodos;
+                todoAll[index].task[tIndex].title = res.data.title;
+                this.myTodos = todoAll;
+                this.notificationService.showPopupSuccess(res.message);
+              } else {
+                this.notificationService.showPopupDanger(res.message);
+              }
+            }, err => {
+              this.notificationService.showPopupDanger(err.message);
+            }
+          )
+      }
     });
   }
 
@@ -163,7 +192,26 @@ export class TodosComponent implements OnInit {
         (res: any) => {
           if (res.success) {
             let allTodos = this.myTodos;
-            allTodos.slice(index, 1);
+            allTodos.splice(index, 1);
+            this.myTodos = allTodos;
+            this.notificationService.showPopupInfo(res.message);
+          } else {
+            this.notificationService.showPopupDanger(res.message);
+          }
+        }, err => {
+          this.notificationService.showPopupDanger(err.message);
+        }
+      )
+  }
+
+  deleteTask(listId, taskId, index, tIndex) {
+    this.taskService.delete(listId, taskId)
+      .pipe(untilDestroyed(this))
+      .subscribe(
+        (res: any) => {
+          if (res.success) {
+            let allTodos = this.myTodos;
+            allTodos[index].task.splice(tIndex, 1);
             this.myTodos = allTodos;
             this.notificationService.showPopupInfo(res.message);
           } else {

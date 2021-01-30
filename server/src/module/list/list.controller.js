@@ -57,7 +57,7 @@ ListRoute.patch('/update/:id', Authenticate, async (req, res) => {
     })
 })
 
-ListRoute.delete('/:id', Authenticate, (req, res) => {
+ListRoute.delete('/delete/:id', Authenticate, (req, res) => {
     List.findOneAndRemove({ _id: req.params.id, _userid: req.user._id }).then((deleteData) => {
         res.status(200).send({ success: true, message: 'List Delete Successfull.', data: deleteData })
     }).catch((e) => {
