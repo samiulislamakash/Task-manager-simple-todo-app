@@ -18,6 +18,8 @@ export class HomeComponent implements OnInit {
   state: string;
 
   form: FormGroup;
+  isToken: boolean;
+  isLoading: boolean = false;
 
   constructor(
     private router: Router,
@@ -34,6 +36,8 @@ export class HomeComponent implements OnInit {
     } else if (this.state === 'signUp') {
       this.singUpFrom()
     }
+
+    this.isToken = !!localStorage.getItem('access-token') && !!localStorage.getItem('refresh-token')
   }
 
   ngOnInit(): void {
@@ -61,7 +65,7 @@ export class HomeComponent implements OnInit {
   }
 
   userLogin() {
-    console.log(this.form.value)
+    this.isLoading = true;
     this.userService.login(this.form.value)
       .pipe(untilDestroyed(this))
       .subscribe(
@@ -69,12 +73,15 @@ export class HomeComponent implements OnInit {
           if (res.success) {
             this.authService.session(res.data.user._id, res.data.authTokens.accessToken, res.data.authTokens.refreshToken);
             this.form.reset();
+            this.isLoading = false;
             this.router.navigate(['main']);
             this.notificationService.showPopupInfo('Login Successfull')
           } else {
+            this.isLoading = false;
             this.notificationService.showPopupDanger(res.message);
           }
         }, (err) => {
+          this.isLoading = false;
           this.notificationService.showPopupDanger(err.message);
         }
       )
@@ -82,21 +89,23 @@ export class HomeComponent implements OnInit {
   }
 
   userSingUp() {
-    console.log(this.form.value)
+    this.isLoading = true;
     this.userService.create(this.form.value)
       .pipe(untilDestroyed(this))
       .subscribe(
         (res: any) => {
-          console.log(res)
           if (res.success) {
             this.authService.session(res.data.user._id, res.data.authTokens.accessToken, res.data.authTokens.refreshToken);
             this.form.reset();
+            this.isLoading = false;
             this.router.navigate(['main']);
             this.notificationService.showPopupInfo('Sing up successfull')
           } else {
+            this.isLoading = false;
             this.notificationService.showPopupDanger(res.message);
           }
         }, (err) => {
+          this.isLoading = false;
           this.notificationService.showPopupDanger(err.message);
         }
       )

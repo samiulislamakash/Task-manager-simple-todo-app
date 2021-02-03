@@ -5,8 +5,13 @@
                 <h2>To Do</h2>
             </div>
             <div class="_btns">
-                <a type="button" class="btn" routerLink='/login'>Login</a>
-                <button type="button" class="btn btn-light" routerLink="signUp">Sign Up</button>
+                <ng-container *ngIf="!isToken">
+                    <a type="button" class="btn" routerLink='/login'>Login</a>
+                    <button type="button" class="btn btn-light" routerLink="signUp">Sign Up</button>
+                </ng-container>
+                <ng-container *ngIf="isToken">
+                    <button type="button" class="btn btn-light" routerLink="main">Launch To Do</button>
+                </ng-container>
             </div>
         </div>
         <div class="intro container-fluid">
@@ -289,7 +294,12 @@
                     </div>
                 </div>
                 <div class="down_subscription">
-                    <button type="button" class="btn btn-info" routerLink="signUp">Sign Up - It's Free!</button>
+                    <ng-container *ngIf="!isToken">
+                        <button type="button" class="btn btn-info" routerLink="signUp">Sign Up - It's Free!</button>
+                    </ng-container>
+                    <ng-container *ngIf="isToken">
+                        <button type="button" class="btn btn-info" routerLink="main">Launch To Do</button>
+                    </ng-container>
                 </div>
             </div>
         </div>
@@ -342,8 +352,10 @@
                         Password is <strong>required</strong>
                     </mat-error>
                 </mat-form-field>
-                <button type="submit" [disabled]="form.invalid" (click)="userLogin()"
-                    class="btn btn-primary submit">Submit</button>
+                <button type="submit" [disabled]="form.invalid || isLoading" (click)="userLogin()"
+                    class="btn btn-primary submit">Submit <div *ngIf="isLoading" class="spinner-border text-info resize"
+                        role="status">
+                    </div> </button>
                 <p class="or">Or</p>
 
                 <hr>
@@ -407,8 +419,10 @@
                     <a routerLink>Privacy Policy</a>.
                 </p>
 
-                <button type="submit" [disabled]="form.invalid" (click)="userSingUp()"
-                    class="btn btn-primary submit">Submit</button>
+                <button type="submit" [disabled]="form.invalid || isLoading" (click)="userSingUp()"
+                    class="btn btn-primary submit">Submit <div *ngIf="isLoading" class="spinner-border text-info resize"
+                        role="status">
+                    </div></button>
 
                 <div class="jump_section">
                     <a class="can_it" routerLink="/login">Already have an account? Log In </a>
