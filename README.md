@@ -1,5 +1,13 @@
 # Task-manager-simple-todo-app
 
-This application use front-end Angular and Back-end Node Js .
+In this application I use angular as front-end development and Node.js (Express js) as server side back-end api development. __This application is simple SPA (Single Page Application)__
 
-Simple login , singup , logout. create a list and edit and delete list, create tasks and edit and delete also.
+## Some Screenshot 
+#### Home Page
+![Home page](./client/src/assets/home.png)
+#### Login Page
+![login page](./client/src/assets/login.png)
+#### Sign Up Page
+![Sing up page](./client/src/assets/signup.png)
+#### Main To do page
+![Main Todo](./client/src/assets/main.png)
