@@ -3,6 +3,7 @@ const ListRoute = express.Router()
 const Authenticate = require('../../middleware/middlware')
 
 const List = require('./list.model')
+const Task = require('../task/task.model')
 
 ListRoute.get('/all', Authenticate, async (req, res) => {
     try {
@@ -58,11 +59,11 @@ ListRoute.patch('/update/:id', Authenticate, async (req, res) => {
 })
 
 ListRoute.delete('/delete/:id', Authenticate, (req, res) => {
-    List.findOneAndRemove({ _id: req.params.id, _userid: req.user._id }).then((deleteData) => {
+    List.findOneAndRemove({ _id: req.params.id, _userid: req.user._id }).then(async (deleteData) => {
+        await Task.remove({ _listId: req.params.id });
         res.status(200).send({ success: true, message: 'List Delete Successfull.', data: deleteData })
     }).catch((e) => {
         res.status(400).send({ success: false, message: 'List Data Delete Error' })
     })
 })
-
 module.exports = ListRoute
