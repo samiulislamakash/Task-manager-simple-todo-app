@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://127.0.0.1:27017/TaskManager', {
+mongoose.connect('mongodb+srv://TodoDB:TodoDB@cluster0.eykna.mongodb.net/myFirstDatabase?retryWrites=true&w=majority', {
     useCreateIndex: true,
     useNewUrlParser: true,
     useFindAndModify: false,
